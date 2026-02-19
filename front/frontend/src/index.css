@@ -37,6 +37,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 100px;
 }
 
 h1 {
@@ -68,19 +69,22 @@ button:hover {
 }
 
 .main-nav {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 95%;
   max-width: 1200px;
-  padding: 15px 30px;
+  padding: 10px 30px;
   background: var(--glass);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .nav-links {
@@ -121,7 +125,7 @@ button:hover {
 }
 
 .nav-logo {
-  height: 40px;
+  height: 60px;
   width: auto;
   display: block;
 }

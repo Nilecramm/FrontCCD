@@ -236,7 +236,6 @@ export default function AdminArticles() {
 
                 .category-item:hover {
                     background: var(--text-white);
-                    transform: scale(1.01);
                 }
 
                 .category-item td:first-child { border-radius: 8px 0 0 8px; }

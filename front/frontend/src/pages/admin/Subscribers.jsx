@@ -118,7 +118,6 @@ export default function Subscribers() {
 
                 .category-item:hover {
                     background: white;
-                    transform: scale(1.005);
                 }
 
                 .category-item td {
