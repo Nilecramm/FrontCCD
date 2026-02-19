@@ -5,19 +5,9 @@ import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
   plugins: [react()],
+  // On supprime le bloc proxy car on utilise l'URL directe dans api.js
   server: {
-    proxy: {
-      '/subscriber': {
-        target: 'https://toyboxing.th-fchs.fr',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/admin': {
-        target: 'https://toyboxing.th-fchs.fr',
-        changeOrigin: true,
-        secure: false,
-      },
-    }
+    proxy: {}
   },
 })
 
