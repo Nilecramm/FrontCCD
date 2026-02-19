@@ -15,6 +15,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front/frontend
     steps:
       - uses: actions/checkout@v4
 
@@ -22,6 +25,7 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
+          cache-dependency-path: front/frontend/package-lock.json
 
       - run: npm ci
       - run: npm run build
@@ -34,7 +38,7 @@ jobs:
 
       - name: Upload to GCS
         run: |
-          gsutil -m rsync -r -d dist/ gs://app-toyboxing-th-fchs-fr/
+          gsutil -m rsync -r -d dist/ gs://app-toyboxing.th-fchs.fr/
 
       - name: Purge Cloudflare cache
         run: |

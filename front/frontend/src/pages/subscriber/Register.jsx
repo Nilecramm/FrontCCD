@@ -125,7 +125,7 @@ export default function Register() {
             <style>{`
                 :root { 
                     --primary: #646cff;
-                    --glass: rgba(240, 240, 240, 0.8);
+                    --glass: rgba(255, 255, 255, 0.8);
                     --text-white: #ffffff;
                 }
                 
@@ -134,7 +134,8 @@ export default function Register() {
                     display: flex; flex-direction: column; gap: 20px;
                     max-width: 500px; width: 95%; margin: 0 auto; padding: 25px;
                     background: var(--glass); border-radius: 16px;
-                    backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
                 }
 
                 .form-section h3 {
@@ -153,9 +154,8 @@ export default function Register() {
                     padding: 12px; border-radius: 8px; 
                     color: #000000; /* Texte noir sur fond clair */
                     border: 1px solid rgba(0,0,0,0.1); 
-                    background: var(--glass); /* Couleur glass permanente */
+                    background: #f4f4f4; /* Couleur gris clair comme dans l'admin */
                     width: 100%; box-sizing: border-box; font-size: 16px;
-                    transition: none; /* Supprime les effets de transition qui pourraient assombrir */
                 }
 
                 input::placeholder {
@@ -164,7 +164,7 @@ export default function Register() {
 
                 input:focus, select:focus {
                     outline: 2px solid var(--primary);
-                    background: var(--glass); /* Garde la couleur glass même au focus */
+                    background: #ffffff; /* Fond blanc au focus */
                 }
 
                 /* Empêche l'assombrissement par le navigateur (autofill) */
@@ -172,7 +172,7 @@ export default function Register() {
                 input:-webkit-autofill:hover, 
                 input:-webkit-autofill:focus {
                     -webkit-text-fill-color: #000000;
-                    -webkit-box-shadow: 0 0 0px 1000px rgba(240, 240, 240, 0.9) inset;
+                    -webkit-box-shadow: 0 0 0px 1000px #f4f4f4 inset;
                     transition: background-color 5000s ease-in-out 0s;
                 }
 
