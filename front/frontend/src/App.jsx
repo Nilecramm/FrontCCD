@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import Register from './pages/subscriber/Register';
 import AdminDashboard from './pages/admin/Dashboard';
