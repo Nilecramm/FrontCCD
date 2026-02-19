@@ -16,9 +16,9 @@ export default function Login({ onLogin }) {
             // On prévient le composant App pour afficher le bouton immédiatement
             if (onLogin) onLogin();
 
-            navigate('/admin');
+            navigate('/dashboard');
         } catch (err) {
-            alert("Identifiants incorrects (admin / toyboxing2026)");
+            alert("Identifiants incorrects");
         }
     };
 

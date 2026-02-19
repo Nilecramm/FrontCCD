@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 // Composant pour protéger les routes
 const PrivateRoute = ({ children }) => {
     const isAuthenticated = localStorage.getItem('admin_token');
-    return isAuthenticated ? children : <Navigate to="/admin/login" />;
+    return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 // Composant pour le bouton de connexion/déconnexion avec style optimisé
@@ -25,9 +25,9 @@ const LoginLogoutButton = ({ isAdmin, setIsAdmin }) => {
         if (isAdmin) {
             localStorage.removeItem('admin_token');
             setIsAdmin(false);
-            navigate('/admin/login');
+            navigate('/login');
         } else {
-            navigate('/admin/login');
+            navigate('/login');
         }
     };
 
@@ -45,18 +45,18 @@ function App() {
         <Router>
             <nav className="main-nav">
                 <div className="nav-links">
-                    <Link to="/" className="logo-link">
+                    <a href="https://iutnc-tc.fr/sites/crazy/2026/site29/" className="logo-link">
                         <img src={logo} alt="ToyBoxing Logo" className="nav-logo" />
-                    </Link>
+                    </a>
                     <Link to="/">Inscription</Link>
                     <Link to="/ma-box">Ma Box</Link>
                     {isAdmin && (
                         <>
                             <span className="nav-separator">|</span>
-                            <Link to="/admin">Dashboard</Link>
-                            <Link to="/admin/subscribers">Abonnés</Link>
-                            <Link to="/admin/articles">Stock</Link>
-                            <Link to="/admin/campaigns">Campagnes</Link>
+                            <Link to="/dashboard">Dashboard</Link>
+                            <Link to="/subscribers">Abonnés</Link>
+                            <Link to="/articles">Stock</Link>
+                            <Link to="/campaigns">Campagnes</Link>
                         </>
                     )}
                 </div>
@@ -65,14 +65,14 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Register />} />
-                <Route path="/admin/login" element={<Login onLogin={() => setIsAdmin(true)} />} />
+                <Route path="/login" element={<Login onLogin={() => setIsAdmin(true)} />} />
                 <Route path="/ma-box" element={<SubscriberBox />} />
 
                 {/* Routes Admin Protégées */}
-                <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
-                <Route path="/admin/articles" element={<PrivateRoute><AdminArticles /></PrivateRoute>} />
-                <Route path="/admin/subscribers" element={<PrivateRoute><AdminSubscribers /></PrivateRoute>} />
-                <Route path="/admin/campaigns" element={<PrivateRoute><AdminCampaigns /></PrivateRoute>} />
+                <Route path="/dashboard" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+                <Route path="/articles" element={<PrivateRoute><AdminArticles /></PrivateRoute>} />
+                <Route path="/subscribers" element={<PrivateRoute><AdminSubscribers /></PrivateRoute>} />
+                <Route path="/campaigns" element={<PrivateRoute><AdminCampaigns /></PrivateRoute>} />
             </Routes>
         </Router>
     );
