@@ -5,95 +5,175 @@ export default function Dashboard() {
     const [stats, setStats] = useState(null);
 
     useEffect(() => {
-        adminAPI.getDashboard().then(res => setStats(res.data));
+        const fetchStats = async () => {
+            const res = await adminAPI.getDashboard();
+            setStats(res.data);
+        };
+        fetchStats();
     }, []);
 
-    if (!stats) return <p>Chargement du dashboard...</p>;
+    if (!stats) return (
+        <div className="loader-container">
+            <p>Chargement du dashboard...</p>
+        </div>
+    );
 
     // Petit helper pour afficher les listes de stats (ex: SOC: 5)
     const renderStatList = (data, labels) => (
-        <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
+        <ul className="stat-details-list">
             {Object.entries(data).map(([key, count]) => (
-                <li key={key} style={{ marginBottom: '5px' }}>
-                    <span style={{ fontWeight: 'bold' }}>{labels[key] || key} :</span> {count}
+                <li key={key}>
+                    <span className="stat-label">{labels[key] || key} :</span>
+                    <span className="stat-count">{count}</span>
                 </li>
             ))}
         </ul>
     );
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="admin-page-container">
             <h1>Tableau de Bord Gestionnaire</h1>
 
             {/* 1. Résumé Global */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
-                <div className="card" style={cardStyle}>
+            <div className="stats-grid">
+                <div className="registration-form stat-card-glass">
                     <h3>📦 Stock Total</h3>
-                    <p style={bigNumberStyle}>{stats.total_articles}</p>
+                    <p className="big-number">{stats.total_articles}</p>
                 </div>
-                <div className="card" style={cardStyle}>
+                <div className="registration-form stat-card-glass">
                     <h3>👥 Abonnés</h3>
-                    <p style={bigNumberStyle}>{stats.active_subscribers}</p>
+                    <p className="big-number">{stats.active_subscribers}</p>
                 </div>
-                <div className="card" style={cardStyle}>
+                <div className="registration-form stat-card-glass">
                     <h3>✅ Box Envoyées</h3>
-                    <p style={bigNumberStyle}>{stats.total_validated_boxes}</p>
+                    <p className="big-number">{stats.total_validated_boxes}</p>
                 </div>
-                <div className="card" style={cardStyle}>
+                <div className="registration-form stat-card-glass">
                     <h3>⭐ Score Moyen</h3>
-                    <p style={bigNumberStyle}>{stats.average_box_score?.toFixed(1) || 0}</p>
+                    <p className="big-number">{stats.average_box_score?.toFixed(1) || 0}</p>
                 </div>
             </div>
 
             {/* 2. Détails des répartitions */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-
-                <section style={sectionStyle}>
+            <div className="details-grid">
+                <section className="registration-form detail-section">
                     <h4>Répartition par Catégorie</h4>
                     {renderStatList(stats.articles_by_category, CATEGORIES)}
                 </section>
 
-                <section style={sectionStyle}>
+                <section className="registration-form detail-section">
                     <h4>Articles par Tranche d'Âge</h4>
                     {renderStatList(stats.articles_by_age_range, AGE_RANGES)}
                 </section>
 
-                <section style={sectionStyle}>
+                <section className="registration-form detail-section">
                     <h4>État du Stock</h4>
                     {renderStatList(stats.articles_by_condition, CONDITIONS)}
                 </section>
 
-                <section style={sectionStyle}>
+                <section className="registration-form detail-section">
                     <h4>Abonnés par Tranche d'Âge</h4>
                     {renderStatList(stats.subscribers_by_age_range, AGE_RANGES)}
                 </section>
-
             </div>
+
+            <style>{`
+                :root { 
+                    --primary: #646cff;
+                    --primary-light: #8b91ff;
+                    --glass: rgba(255, 255, 255, 0.7);
+                    --text-black: #000000;
+                }
+
+                .admin-page-container {
+                    padding: 40px 20px;
+                    width: 100%;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+
+                .stats-grid { 
+                    display: grid; 
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+                    gap: 20px; 
+                    margin-bottom: 40px; 
+                }
+
+                .registration-form {
+                    padding: 25px;
+                    background: var(--glass); 
+                    border-radius: 16px;
+                    backdrop-filter: blur(10px); 
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    text-align: center;
+                }
+
+                .stat-card-glass h3 {
+                    font-size: 1.1em;
+                    color: var(--primary);
+                    margin-bottom: 10px;
+                }
+
+                .big-number {
+                    font-size: 2.5em;
+                    font-weight: 800;
+                    color: var(--text-black);
+                    margin: 0;
+                }
+
+                .details-grid {
+                    display: grid; 
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+                    gap: 20px; 
+                }
+
+                .detail-section {
+                    text-align: left;
+                }
+
+                .detail-section h4 {
+                    color: var(--primary);
+                    border-bottom: 1px solid rgba(0,0,0,0.1);
+                    padding-bottom: 10px;
+                    margin-bottom: 15px;
+                }
+
+                .stat-details-list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .stat-details-list li {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 0;
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                    color: var(--text-black);
+                }
+
+                .stat-label {
+                    font-weight: 600;
+                }
+
+                .stat-count {
+                    background: var(--primary);
+                    color: white;
+                    padding: 2px 10px;
+                    border-radius: 12px;
+                    font-size: 0.9em;
+                }
+
+                .loader-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 50vh;
+                    font-size: 1.2em;
+                    color: var(--primary);
+                }
+            `}</style>
         </div>
     );
 }
-
-// Styles rapides en ligne pour la présentation
-const cardStyle = {
-    background: '#f8f9fa',
-    padding: '20px',
-    borderRadius: '10px',
-    border: '1px solid #dee2e6',
-    textAlign: 'center',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-};
-
-const sectionStyle = {
-    background: 'white',
-    padding: '15px',
-    borderRadius: '8px',
-    border: '1px solid #eee',
-    color: '#333'
-};
-
-const bigNumberStyle = {
-    fontSize: '32px',
-    margin: '10px 0 0 0',
-    color: '#2c3e50',
-    fontWeight: 'bold'
-};

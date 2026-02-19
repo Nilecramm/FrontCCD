@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react'; // Ajout de useState et useEffect
+import { useState } from 'react';
 import Register from './pages/subscriber/Register';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminArticles from './pages/admin/Articles';
@@ -7,48 +7,68 @@ import AdminCampaigns from './pages/admin/Campaigns';
 import AdminSubscribers from './pages/admin/Subscribers';
 import Login from './pages/admin/Login';
 import SubscriberBox from './pages/subscriber/SubscriberBox';
+import logo from './assets/logo.png';
 
+import { useNavigate } from 'react-router-dom';
+
+// Composant pour protéger les routes
 const PrivateRoute = ({ children }) => {
-    const token = localStorage.getItem('admin_token');
-    return token ? children : <Navigate to="/admin/login" />;
+    const isAuthenticated = localStorage.getItem('admin_token');
+    return isAuthenticated ? children : <Navigate to="/admin/login" />;
 };
 
-function App() {
-    // État pour suivre la connexion en temps réel
-    const [isAdmin, setIsAdmin] = useState(!!localStorage.getItem('admin_token'));
+// Composant pour le bouton de connexion/déconnexion avec style optimisé
+const LoginLogoutButton = ({ isAdmin, setIsAdmin }) => {
+    const navigate = useNavigate();
 
-    // Met à jour l'état si le token change (utile si on ouvre plusieurs onglets)
-    useEffect(() => {
-        setIsAdmin(!!localStorage.getItem('admin_token'));
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem('admin_token');
-        setIsAdmin(false); // Mise à jour instantanée de l'interface
-        window.location.href = '/'; // Redirection vers l'accueil pour éviter le bug du proxy
+    const handleAction = () => {
+        if (isAdmin) {
+            localStorage.removeItem('admin_token');
+            setIsAdmin(false);
+            navigate('/admin/login');
+        } else {
+            navigate('/admin/login');
+        }
     };
 
     return (
+        <button onClick={handleAction} className="logout-btn">
+            {isAdmin ? 'Déconnexion' : 'Connexion Admin'}
+        </button>
+    );
+};
+
+function App() {
+    const [isAdmin, setIsAdmin] = useState(!!localStorage.getItem('admin_token'));
+
+    return (
         <Router>
-            <nav>
-                <Link to="/">Inscription Client</Link> |
-                <Link to="/ma-box">Ma Box</Link> |
-                <Link to="/admin"> Dashboard</Link> |
-                <Link to="/admin/subscribers">Abonnés</Link> |
-                <Link to="/admin/articles"> Stock</Link> |
-                <Link to="/admin/campaigns"> Campagnes</Link>
-                {/* Utilisation de l'état isAdmin au lieu de localStorage directement */}
-                {isAdmin && (
-                    <button onClick={handleLogout} style={{ marginLeft: '20px' }}>Déconnexion</button>
-                )}
+            <nav className="main-nav">
+                <div className="nav-links">
+                    <Link to="/" className="logo-link">
+                        <img src={logo} alt="ToyBoxing Logo" className="nav-logo" />
+                    </Link>
+                    <Link to="/">Inscription</Link>
+                    <Link to="/ma-box">Ma Box</Link>
+                    {isAdmin && (
+                        <>
+                            <span className="nav-separator">|</span>
+                            <Link to="/admin">Dashboard</Link>
+                            <Link to="/admin/subscribers">Abonnés</Link>
+                            <Link to="/admin/articles">Stock</Link>
+                            <Link to="/admin/campaigns">Campagnes</Link>
+                        </>
+                    )}
+                </div>
+                <LoginLogoutButton isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
             </nav>
 
             <Routes>
                 <Route path="/" element={<Register />} />
-                {/* On passe une fonction onLogin pour prévenir App du succès de la connexion */}
                 <Route path="/admin/login" element={<Login onLogin={() => setIsAdmin(true)} />} />
                 <Route path="/ma-box" element={<SubscriberBox />} />
 
+                {/* Routes Admin Protégées */}
                 <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
                 <Route path="/admin/articles" element={<PrivateRoute><AdminArticles /></PrivateRoute>} />
                 <Route path="/admin/subscribers" element={<PrivateRoute><AdminSubscribers /></PrivateRoute>} />
@@ -57,4 +77,5 @@ function App() {
         </Router>
     );
 }
+
 export default App;

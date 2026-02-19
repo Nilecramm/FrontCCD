@@ -60,6 +60,78 @@ button:hover {
   border-color: #646cff;
 }
 
+:root {
+  --primary: #646cff;
+  --primary-light: #8b91ff;
+  --glass: rgba(255, 255, 255, 0.7);
+  --text-black: #000000;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 15px 30px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text-black);
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-separator {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.nav-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

@@ -29,12 +29,12 @@ export default function Login({ onLogin }) {
                 <input
                     type="text"
                     placeholder="Nom d'utilisateur"
-                    onChange={e => setCredentials({...credentials, username: e.target.value})}
+                    onChange={e => setCredentials({ ...credentials, username: e.target.value })}
                 />
                 <input
                     type="password"
                     placeholder="Mot de passe"
-                    onChange={e => setCredentials({...credentials, password: e.target.value})}
+                    onChange={e => setCredentials({ ...credentials, password: e.target.value })}
                 />
                 <button type="submit">Se connecter</button>
             </form>
