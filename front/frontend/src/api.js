@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '' });
-// const api = axios.create({ baseURL: 'https://toyboxing.th-fchs.fr' }); // Ne pas utiliser directement pour éviter le CORS en dev
+//const api = axios.create({ baseURL: '' });
+const api = axios.create({ baseURL: 'https://toyboxing.th-fchs.fr' }); // Ne pas utiliser directement pour éviter le CORS en dev
 
 // INTERCEPTEUR : Ajoute automatiquement le token s'il existe dans le localStorage
 api.interceptors.request.use(config => {
